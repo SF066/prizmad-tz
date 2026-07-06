@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PRIZMAD — ТЗ для рекламных роликов</title>
+<style>
+  :root{
+    --bg:#ececec; --card:#ffffff; --line:#e2e2e2; --line2:#ededed;
+    --txt:#141414; --dim:#6d6d6d; --acc:#ff5c00; --narr:#fff4ec;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  header{padding:36px 22px 8px;max-width:1180px;margin:0 auto}
+  header h1{margin:0 0 6px;font-size:27px;letter-spacing:.2px;color:#0c0c0c}
+  header h1 b{color:var(--acc)}
+  header p{margin:0;color:var(--dim);font-size:14px}
+  .wrap{max-width:1180px;margin:0 auto;padding:14px 22px 64px}
+  .row{display:flex;gap:22px;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:18px;margin:16px 0;align-items:flex-start;
+    box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .left{flex:0 0 auto;width:264px;display:flex;flex-direction:column;gap:10px;align-items:center}
+  .num{width:100%;display:flex;align-items:center;gap:10px;font-weight:800;font-size:12px;
+    letter-spacing:1.4px;color:var(--dim);text-transform:uppercase}
+  .num .b{display:inline-flex;align-items:center;justify-content:center;
+    width:34px;height:34px;border-radius:9px;background:var(--acc);color:#fff;font-size:17px;font-weight:800}
+  video{width:100%;max-width:264px;border-radius:12px;background:#000;display:block;aspect-ratio:9/16;object-fit:cover}
+  .slot{width:100%;max-width:264px;aspect-ratio:9/16;border-radius:12px;border:2px dashed #cfcfcf;
+    background:#f6f6f6;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;color:#9a9a9a;font-size:13px;font-weight:700;letter-spacing:.4px;gap:4px}
+  .slot span{font-weight:500;font-size:11px;letter-spacing:.2px}
+  .right{flex:1;min-width:0}
+  /* storyboard slider */
+  .slider{position:relative;width:100%;max-width:264px;aspect-ratio:9/16;border-radius:12px;overflow:hidden;background:#000}
+  .track{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .track::-webkit-scrollbar{display:none}
+  .slide{flex:0 0 100%;height:100%;scroll-snap-align:center}
+  .slide img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in}
+  .slider .nav{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border:none;border-radius:50%;
+    background:rgba(0,0,0,.5);color:#fff;font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .slider .nav:hover{background:rgba(0,0,0,.72)}
+  .slider .prev{left:8px}.slider .next{right:8px}
+  .slider .counter{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px}
+  .dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:264px}
+  .dot{width:8px;height:8px;border-radius:50%;border:none;background:#cfcfcf;cursor:pointer;padding:0;transition:width .2s,background .2s}
+  .dot.on{background:var(--acc);width:20px;border-radius:5px}
+  /* lightbox */
+  .lb{position:fixed;inset:0;background:rgba(0,0,0,.86);display:none;align-items:center;justify-content:center;z-index:50;padding:24px}
+  .lb.on{display:flex}
+  .lb-fig{margin:0;max-width:min(92vw,540px);display:flex;flex-direction:column;align-items:center;gap:12px}
+  .lb-img{max-width:100%;max-height:80vh;border-radius:12px;display:block}
+  .lb-cap{color:#eee;font-size:14px;text-align:center;max-width:540px;line-height:1.45}
+  .lb-btn{position:fixed;background:rgba(255,255,255,.14);color:#fff;border:none;cursor:pointer;border-radius:50%;
+    width:46px;height:46px;font-size:26px;line-height:1;display:flex;align-items:center;justify-content:center}
+  .lb-btn:hover{background:rgba(255,255,255,.26)}
+  .lb-close{top:20px;right:20px;font-size:30px}
+  .lb-prev{left:20px;top:50%;transform:translateY(-50%)}
+  .lb-next{right:20px;top:50%;transform:translateY(-50%)}
+  h3{margin:2px 0 12px;font-size:19px;line-height:1.3;color:#0c0c0c}
+  .lbl{display:block;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px}
+  .sb{background:#f7f7f7;border:1px solid var(--line2);border-radius:10px;padding:11px 14px;margin:0 0 12px}
+  .sb .lbl{color:#0c0c0c}
+  .sb p{margin:0;font-size:14px;color:#222;line-height:1.5}
+  .narr{background:var(--narr);border:1px solid #ffd9c2;border-left:4px solid var(--acc);
+    border-radius:10px;padding:12px 15px;margin:0 0 12px;color:#1a1a1a;font-size:14.5px;line-height:1.5}
+  .narr .lbl{color:var(--acc)}
+  .tz{background:#f7f7f7;border:1px solid var(--line2);border-radius:12px;padding:12px 16px}
+  .tz dl{margin:0;display:grid;grid-template-columns:130px 1fr;gap:7px 14px}
+  .tz dt{color:var(--dim);font-weight:600;font-size:13px}
+  .tz dd{margin:0;font-size:14px;color:#161616}
+  .tz dd.spec{font-weight:700;color:#0c0c0c}
+  .tz dd.cta{font-weight:700;color:var(--acc)}
+  @media(max-width:720px){
+    .row{flex-direction:column;align-items:stretch}
+    .left{width:100%;flex-direction:row;flex-wrap:wrap;justify-content:flex-start}
+    video,.slot{max-width:180px}
+    .tz dl{grid-template-columns:1fr}
+    .tz dt{margin-top:6px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>ТЗ для рекламных роликов <b>PRIZMAD</b></h1>
+</header>
+
+<div class="wrap">
+
+  <!-- 1 -->
+  <div class="row">
+    <div class="left">
+      <div class="num"><span class="b">1</span> Референс</div>
+      <video playsinline src="492142727_1_tiktok_6a4b9f1c8335b2_86225561.mp4" controls preload="metadata"></video>
+    </div>
+    <div class="right">
+      <h3>Говорящая голова + процесс</h3>
+      <div class="sb"><span class="lbl">Описание</span><p>Экран пополам. Снизу — девушка-креатор даёт начитку. Сверху — быстрый процесс в PRIZMAD: вставили ссылку → подтянулся продукт (например, сыворотка) → сгенерился промпт → выбор аватара → колечко генерации «~5 мин». Дальше уже аватар рассказывает про сыворотку и на одном и том же фоне трижды переключается, меняясь на разных креаторов. Финал: серый экран — лого Prizmad + крупно рыжим «Try it free».</p></div>
+      <div class="narr"><span class="lbl">Начитка (EN)</span>“This is how I make UGC ads in five minutes — without filming a single thing. I paste my product link, Prizmad instantly pulls the product, writes a scroll-stopping script, and I just pick a creator I like. A few seconds later it’s done — voiceover, music, subtitles, fully edited. And watch this: the exact same ad, three completely different creators, so I can test which one my audience actually responds to. Every version ready to launch on Meta and TikTok — no camera, no actors, no editor.”</div>
+      <div class="tz"><dl>
+        <dt>Хронометраж</dt><dd class="spec">~30 сек · 9:16</dd>
+        <dt>CTA (EN)</dt><dd class="cta">“Try it free”</dd>
+      </dl></div>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="row">
+    <div class="left">
+      <div class="num"><span class="b">2</span> Референс</div>
+      <video playsinline src="AQMCM9hvsjRvDHrlBS-Lh1PuOJml0l8PWDkKwcARvXHHaT03lzym85iP2fi3KI-LL_zppZuRTNnlgxRlXZEfVBVxSxfE5jvjGjOHE9M.mp4" controls preload="metadata"></video>
+    </div>
+    <div class="right">
+      <h3>Экономия на съёмках + свой аватар</h3>
+      <div class="sb"><span class="lbl">Описание</span><p>Девушка рассказывает, как экономит на съёмках UGC, заменив себя аватаром. Показывается интерфейс AI-Avatar в PRIZMAD: делаешь своё фото ИЛИ выбираешь из 50+ аватаров (показать объём библиотеки), вставляешь текст, жмёшь «Генерировать» — и готово, гиперреалистичный аватар. Финал: серый экран — лого Prizmad + крупно рыжим «Try it free».</p></div>
+      <div class="narr"><span class="lbl">Начитка (EN)</span>“Here’s how I cut my UGC costs to almost nothing — I stopped filming myself. In Prizmad I upload one photo, or pick from over fifty ready AI avatars, paste my script, hit generate, and out comes a hyper-realistic creator that looks completely real.”</div>
+      <div class="tz"><dl>
+        <dt>Хронометраж</dt><dd class="spec">~20 сек · 9:16</dd>
+        <dt>CTA (EN)</dt><dd class="cta">“Try it free”</dd>
+      </dl></div>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="row">
+    <div class="left">
+      <div class="num"><span class="b">3</span> Референс</div>
+      <video playsinline src="AQMKelEtvIRwUws9A_V_tZyxYd5EPs1NiAbdU53xmQ4PT5ZWgfNH8YKZHDTH8_M.mp4" controls preload="metadata"></video>
+    </div>
+    <div class="right">
+      <h3>Гиперреализм макро детали</h3>
+      <div class="sb"><span class="lbl">Описание</span><p>Крупный план девушки, затем серия супер-макро деталей: улыбка, глаза, кожа, волосы. В конце — подмигивает. Весь текст — закадровым голосом. Финал: серый экран — лого Prizmad + крупно рыжим «Try it free».</p></div>
+      <div class="narr"><span class="lbl">Начитка (EN, закадр)</span>“Look closely. The smile. The eyes. The skin. Every strand of hair. None of this is real — she was generated in Prizmad from a single link. If you can’t tell she’s AI, neither can your customers.”</div>
+      <div class="tz"><dl>
+        <dt>Хронометраж</dt><dd class="spec">~15 сек · 9:16</dd>
+        <dt>CTA (EN)</dt><dd class="cta">“Try it free”</dd>
+      </dl></div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="row">
+    <div class="left">
+      <div class="num"><span class="b">4</span> Референс</div>
+      <video playsinline src="AQMPfMyM0d-AshMJ4zh-qRNPb2vyORKwBVjoazuTEc26CMXSwfQO83PbIbXsw_AHnkxFbDYSc0LEfbFvGsBWCNQlp8NGkjo4tHAVhMYuKw.mp4" controls preload="metadata"></video>
+    </div>
+    <div class="right">
+      <h3>Гиперреализм + бьюти детали</h3>
+      <div class="sb"><span class="lbl">Описание</span><p>Девушка с блеском для губ: облизывает губы, наносит блеск. Серия макро: крупно губы, крупно блеск, крупно глаза. В конце — целует камеру, кадр сменяется. Весь текст — закадровым голосом. Финал: серый экран — лого Prizmad + крупно рыжим «Try it free».</p></div>
+      <div class="narr"><span class="lbl">Начитка (EN, закадр)</span>“Every close-up here — the lips, the gloss, the eyes — is one hundred percent AI, made in Prizmad. A finished, scroll-stopping ad from just a product link. No model, no camera, no editor.”</div>
+      <div class="tz"><dl>
+        <dt>Хронометраж</dt><dd class="spec">~13 сек · 9:16</dd>
+        <dt>CTA (EN)</dt><dd class="cta">“Try it free”</dd>
+      </dl></div>
+    </div>
+  </div>
+
+  <!-- 5 (бывш. 6) -->
+  <div class="row">
+    <div class="left">
+      <div class="num"><span class="b">5</span> Референс</div>
+      <video playsinline src="AQNm_bqq9LL8ygvSXl0dJSM8LwazMzKQ_xU7d0FuCAkN5sW8s7F15IvnFWMdEvH.mp4" controls preload="metadata"></video>
+    </div>
+    <div class="right">
+      <h3>Простота схемы наглядно</h3>
+      <div class="sb"><span class="lbl">Описание</span><p>Как на референсе: сверху результат, снизу три плашки «Your product link / Avatar / Prompt». Суть та же — креатор говорит «я не реальная», затем красит ресницы с макро-приближением на детали; в конце подносит тушь близко в кадр. Переключение на серый экран — лого Prizmad + крупно рыжим «Try it free».</p></div>
+      <div class="narr"><span class="lbl">Начитка (EN)</span>“I’m not real — and I bet you couldn’t tell. No camera ever filmed this. Prizmad built me from just one link: it picked the creator, wrote the script, added the voiceover and music, and edited the entire ad. Look closer — every lash, every highlight, generated. This is a finished, ready-to-run ad, not a rough clip you still have to touch. And you almost believed I was a real person.”</div>
+      <div class="tz"><dl>
+        <dt>Хронометраж</dt><dd class="spec">~25 сек · 9:16</dd>
+        <dt>CTA (EN)</dt><dd class="cta">“Try it free”</dd>
+      </dl></div>
+    </div>
+  </div>
+
+  <!-- 6 (бывш. 7) -->
+  <div class="row">
+    <div class="left">
+      <div class="num"><span class="b">6</span> Референс</div>
+      <video playsinline src="AQO2SdRdrB1X5fF_RuJtSxG6-ox6Jn9jsolqLTIdUiSijeWC90mVRIu_-wyx-V01PXlenmNzW1ScNABlH71NFBe83cg6KQzCrIqaWHw.mp4" controls preload="metadata"></video>
+    </div>
+    <div class="right">
+      <h3>Большой выбор AI UGC</h3>
+      <div class="sb"><span class="lbl">Описание</span><p>Динамичная нарезка разных AI-креаторов PRIZMAD в разных сеттингах (за рулём машины, в ванной, в домашней студии) — показываем масштаб библиотеки. Каждый креатор говорит свою реплику, монтаж быстро перескакивает с лица на лицо. Затем — экран интерфейса: огромная сетка креаторов с фильтрами по полу / возрасту / нише / ситуации, один и тот же продукт прогоняется через десятки разных лиц. Мысль: не один аватар, а сотни живых креаторов под любую аудиторию. Финал: серый экран — лого Prizmad + крупно рыжим «Try it free».</p></div>
+      <div class="narr"><span class="lbl">Начитка (EN)</span>“Every creator you’re seeing right now is AI — and every single one was made in Prizmad. Instead of hiring one person for one video, you get a whole library: over two hundred real-looking creators, any age, any style, any setting — behind the wheel, in the bathroom, in a cozy living room. Just pick your product and run the same offer across a dozen different faces, then let the numbers show you which creator your audience actually trusts. One product, unlimited creators, endless UGC — no casting, no shoots, no editor.”</div>
+      <div class="tz"><dl>
+        <dt>Хронометраж</dt><dd class="spec">~30 сек · 9:16</dd>
+        <dt>CTA (EN)</dt><dd class="cta">“Try it free”</dd>
+      </dl></div>
+    </div>
+  </div>
+
+  <!-- 7 (раскадровка-слайдер) -->
+  <div class="row">
+    <div class="left">
+      <div class="num"><span class="b">7</span> Концепт</div>
+      <div class="slider">
+        <div class="track">
+          <div class="slide"><img src="storyboard/c9_1.jpg" alt="кадр 1" data-cap="Кадр 1 — мужчина в возрасте идёт по улице и говорит в камеру (selfie), живой хук."></div>
+          <div class="slide"><img src="storyboard/c9_2.jpg" alt="кадр 2" data-cap="Кадр 2 — на рыжем фоне поле «Your product link». Вставляем ссылку на товар."></div>
+          <div class="slide"><img src="storyboard/c9_3.jpg" alt="кадр 3" data-cap="Кадр 3 — ИИ генерирует UGC-промпт из ссылки (Generating…)."></div>
+          <div class="slide"><img src="storyboard/c9_4.jpg" alt="кадр 4" data-cap="Кадр 4 — сетка из 200+ ИИ-моделей-креаторов PRIZMAD."></div>
+          <div class="slide"><img src="storyboard/c9_5.jpg" alt="кадр 5" data-cap="Кадр 5 — выбранная модель крупно рассказывает о продукте, показывая пальцем."></div>
+        </div>
+        <button class="nav prev" aria-label="Назад">‹</button>
+        <button class="nav next" aria-label="Вперёд">›</button>
+        <div class="counter"></div>
+      </div>
+      <div class="dots"></div>
+    </div>
+    <div class="right">
+      <h3>Быстрый концепт: ссылка = product ad</h3>
+      <div class="sb"><span class="lbl">Описание</span><p>Хук живым креатором (кадр 1) → показ процесса на брендовом рыжем фоне: вставка ссылки, генерация промпта, библиотека 200+ моделей (кадры 2–4) → финал реальным UGC с продуктом (кадр 5). Кадры 2–4 — анимированные переходы со стрелками.</p></div>
+      <div class="narr"><span class="lbl">Начитка (EN)</span>“I made this entire ad without filming a single thing. I just pasted my product link — Prizmad wrote the UGC script, let me pick from over two hundred AI creators, and delivered a finished, ready-to-run ad. No camera, no actors, no editor.”</div>
+      <div class="tz"><dl>
+        <dt>Хронометраж</dt><dd class="spec">~18 сек · 9:16</dd>
+        <dt>CTA (EN)</dt><dd class="cta">“Try it free”</dd>
+      </dl></div>
+    </div>
+  </div>
+
+  <!-- 8 (раскадровка-слайдер) -->
+  <div class="row">
+    <div class="left">
+      <div class="num"><span class="b">8</span> Концепт</div>
+      <div class="slider">
+        <div class="track">
+          <div class="slide"><img src="storyboard/c8_1.jpg" alt="кадр 1" data-cap="Кадр 1 — пустой тёмный экран с надписью «This ad does not exist yet.»"></div>
+          <div class="slide"><img src="storyboard/c8_2.jpg" alt="кадр 2" data-cap="Кадр 2 — появляется product link «prizmad.com/product-link»."></div>
+          <div class="slide"><img src="storyboard/c8_3.jpg" alt="кадр 3" data-cap="Кадр 3 — ссылка рассыпается и превращается в AI-промпт («Create a natural UGC video»)."></div>
+          <div class="slide"><img src="storyboard/c8_4.jpg" alt="кадр 4" data-cap="Кадр 4 — промпт превращается в карточку AI-креатора (PrizCreator, профиль)."></div>
+          <div class="slide"><img src="storyboard/c8_5.jpg" alt="кадр 5" data-cap="Кадр 5 — карточка «собирается» в живое лицо креатора (цифра → человек)."></div>
+          <div class="slide"><img src="storyboard/c8_6.jpg" alt="кадр 6" data-cap="Кадр 6 — креатор появляется в реальной комнате с продуктом (сыворотка)."></div>
+          <div class="slide"><img src="storyboard/c8_7.jpg" alt="кадр 7" data-cap="Кадр 7 — начинает говорить UGC-реплику: «Here’s the thing about this product…»"></div>
+          <div class="slide"><img src="storyboard/c8_8.jpg" alt="кадр 8" data-cap="Кадр 8 — финал: серый брендовый экран Prizmad «From link to ad in minutes.»"></div>
+        </div>
+        <button class="nav prev" aria-label="Назад">‹</button>
+        <button class="nav next" aria-label="Вперёд">›</button>
+        <div class="counter"></div>
+      </div>
+      <div class="dots"></div>
+    </div>
+    <div class="right">
+      <h3>Процесс + результат</h3>
+      <div class="sb"><span class="lbl">Описание</span><p>Морф-ролик целиком в брендинге Prizmad (серо-графит + рыжий акцент). «Пустой» экран оживает по цепочке: link → prompt → карточка креатора → живое лицо → реальная сцена с продуктом → говорящий UGC. Перед финалом кадр резко делится на 6 вариантов этого же ролика (разные креаторы/дубли), затем — финальный логотип-экран. Раскадровки грубые (GPT Image), под финальную отрисовку.</p></div>
+      <div class="narr"><span class="lbl">Начитка (EN)</span>“This ad doesn’t exist yet. Watch. You drop in a product link… it becomes a prompt… the prompt becomes an AI creator… and she steps into a real room with your product and starts talking. ‘Here’s the thing about this product…’ One link, six variations, all ready to run.”</div>
+      <div class="tz"><dl>
+        <dt>Хронометраж</dt><dd class="spec">~22 сек · 9:16</dd>
+        <dt>CTA (EN)</dt><dd class="cta">“From link to ad in minutes.”</dd>
+      </dl></div>
+    </div>
+  </div>
+
+  <!-- 9 (раскадровка-слайдер) -->
+  <div class="row">
+    <div class="left">
+      <div class="num"><span class="b">9</span> Концепт</div>
+      <div class="slider">
+        <div class="track">
+          <div class="slide"><img src="storyboard/c9v_1.jpg" alt="кадр 1" data-cap="Кадр 1 — один UGC-креатив крутится по кругу, метрики краснеют, статус «Fatigued», текст «One ad won’t scale your store», zoom-out на стену из одного и того же ролика."></div>
+          <div class="slide"><img src="storyboard/c9v_2.jpg" alt="кадр 2" data-cap="Кадр 2 — Ads Manager: бюджет $100→$1000/day вверх, а график results вниз; текст «More budget won’t fix tired creatives», интерфейс «ломается»."></div>
+          <div class="slide"><img src="storyboard/c9v_3.jpg" alt="кадр 3" data-cap="Кадр 3 — «было»: стерильный пластиковый AI-аватар, липсинк не совпадает, мёртвые глаза, кадр замерзает; текст «Fake-looking AI kills trust»."></div>
+          <div class="slide"><img src="storyboard/c9v_4.jpg" alt="кадр 4" data-cap="Кадр 4 — глитч в «стало»: живой домашний UGC, естественный свет/кожа/мимика, «Okay, I didn’t expect this to actually work…»; текст «Real-looking UGC builds trust»."></div>
+          <div class="slide"><img src="storyboard/c9v_5.jpg" alt="кадр 5" data-cap="Кадр 5 — интерфейс Prizmad: Paste product link → веер angles (Problem/Review/Demo/Reaction/Comparison/Testimonial), каждая = мини-видео; текст «One product link. Multiple angles.»"></div>
+          <div class="slide"><img src="storyboard/c9v_6.jpg" alt="кадр 6" data-cap="Кадр 6 — финал: сетка 2×3 из 6 UGC с разными hooks, одна подсвечена winner, ROAS-график вверх; «Test more angles. Find the winner faster.» + лого Prizmad."></div>
+        </div>
+        <button class="nav prev" aria-label="Назад">‹</button>
+        <button class="nav next" aria-label="Вперёд">›</button>
+        <div class="counter"></div>
+      </div>
+      <div class="dots"></div>
+    </div>
+    <div class="right">
+      <h3>Селлеры, простота креативов</h3>
+      <div class="sb"><span class="lbl">Описание для видеографа</span><p>Проблема → решение, 6 сцен, всё в брендинге Prizmad (серый + рыжий). <b>(1)</b> Один UGC-креатив крутится по кругу, метрики краснеют, статус «Fatigued», zoom-out на стену из копий. <b>(2)</b> Ads Manager: ползунок бюджета $100→$1000/day вверх — график results вниз, интерфейс «ломается». <b>(3)</b> «Было»: пластиковый AI-аватар, липсинк мимо, мёртвые глаза, кадр замерзает. <b>(4)</b> Глитч-переход в «стало»: живой домашний UGC, естественный свет и мимика, органичная реплика + demo-жест. <b>(5)</b> Интерфейс Prizmad: вставил ссылку → link→script→creator→video, веером 6 angles (Problem/Review/Demo/Reaction/Comparison/Testimonial), каждая превращается в мини-видео. <b>(6)</b> Финал: сетка 2×3 из 6 разных UGC с разными hooks, одна подсвечивается winner, ROAS-график резко вверх, все 6 играют одновременно.</p></div>
+      <div class="narr"><span class="lbl">Начитка (EN)</span>“One ad won’t scale your store — and more budget won’t fix a tired creative. Fake-looking AI kills trust; real-looking UGC builds it. Paste one product link and Prizmad turns it into multiple angles — problem, review, demo, reaction, comparison, testimonial. Test more, find the winner faster.”</div>
+      <div class="tz"><dl>
+        <dt>Хронометраж</dt><dd class="spec">~30 сек · 9:16</dd>
+        <dt>CTA (EN)</dt><dd class="cta">“Test more angles. Find the winner faster.”</dd>
+      </dl></div>
+    </div>
+  </div>
+
+  <!-- 10 (раскадровка-слайдер) -->
+  <div class="row">
+    <div class="left">
+      <div class="num"><span class="b">10</span> Концепт</div>
+      <div class="slider">
+        <div class="track">
+          <div class="slide"><img src="storyboard/c10_1.jpg" alt="кадр 1" data-cap="Кадр 1 — светлый dashboard, линия продаж резко падает красным + грустный смайл; текст «Your sales are not dying. Your creatives are.» Лёгкий glitch/zoom на падении."></div>
+          <div class="slide"><img src="storyboard/c10_2.jpg" alt="кадр 2" data-cap="Кадр 2 — один и тот же UGC-ролик в loop, копируется в ряд; текст «The same video. Again and again.» CTR/ROAS вниз, реакции гаснут."></div>
+          <div class="slide"><img src="storyboard/c10_3.jpg" alt="кадр 3" data-cap="Кадр 3 — «было»: плохой AI-аватар, гладкое пластиковое лицо, мёртвые глаза, липсинк мимо; текст «This is why people ignore AI ads.» (skip/scroll)."></div>
+          <div class="slide"><img src="storyboard/c10_4.jpg" alt="кадр 4" data-cap="Кадр 4 — hard cut в «стало»: живой домашний creator, естественный свет/кожа/эмоции, держит продукт: «Here’s the thing about this product…» (Video Ready · product Detected)."></div>
+          <div class="slide"><img src="storyboard/c10_5.jpg" alt="кадр 5" data-cap="Кадр 5 — интерфейс Prizmad: product link → script → creator → video, динамичная генерация; «From product link to viral video — in minutes.»"></div>
+          <div class="slide"><img src="storyboard/c10_6.jpg" alt="кадр 6" data-cap="Кадр 6 — dashboard разворачивается вверх + сетка из 6 новых UGC-креативов (разные creators/комнаты/хуки); текст «Refresh your ads before your sales drop.» + Prizmad."></div>
+        </div>
+        <button class="nav prev" aria-label="Назад">‹</button>
+        <button class="nav next" aria-label="Вперёд">›</button>
+        <div class="counter"></div>
+      </div>
+      <div class="dots"></div>
+    </div>
+    <div class="right">
+      <h3>Продажи не умирают, креативы выгорают</h3>
+      <div class="sb"><span class="lbl">Описание для видеографа</span><p>Проблема → решение, 6 сцен, брендинг Prizmad (серый + рыжий). <b>(1)</b> Dashboard: линия продаж резко падает красным — тревожный хук «Your sales are not dying. Your creatives are.» <b>(2)</b> Один UGC-ролик крутится в loop, копируется в ряд, метрики гаснут — «The same video. Again and again.» <b>(3)</b> «Было»: пластиковый AI-аватар, uncanny valley, зритель свайпает через секунду. <b>(4)</b> Hard cut в «стало»: живой домашний creator, естественная мимика, продукт в руке, органичная реплика (можно микро-сплит плохой-vs-Prizmad, плохой исчезает). <b>(5)</b> Интерфейс Prizmad: link → script → creator → video как быстрый магический workflow (карточки выезжают, видео в preview). <b>(6)</b> Финал: график разворачивается вверх, веером 6 новых разных креативов — «Refresh your ads before your sales drop.»</p></div>
+      <div class="narr"><span class="lbl">Начитка (EN)</span>“Your sales aren’t dying — your creatives are. The same tired video, again and again, and people scroll right past. Stiff AI avatars? They ignore those too. Prizmad turns one link into real-looking creators — script, creator, video, in minutes. So you can refresh your ads before your sales drop.”</div>
+      <div class="tz"><dl>
+        <dt>Хронометраж</dt><dd class="spec">~30 сек · 9:16</dd>
+        <dt>CTA (EN)</dt><dd class="cta">“Refresh your ads before your sales drop.”</dd>
+      </dl></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="lb" id="lb" aria-hidden="true">
+  <button class="lb-btn lb-close" aria-label="Закрыть">×</button>
+  <button class="lb-btn lb-prev" aria-label="Назад">‹</button>
+  <figure class="lb-fig"><img class="lb-img" alt=""><figcaption class="lb-cap"></figcaption></figure>
+  <button class="lb-btn lb-next" aria-label="Вперёд">›</button>
+</div>
+
+<script>
+(function(){
+  var lb=document.getElementById('lb'),
+      lbImg=lb.querySelector('.lb-img'),
+      lbCap=lb.querySelector('.lb-cap'),
+      cur=[], idx=0;
+  function show(){var s=cur[idx]; lbImg.src=s.src; lbCap.textContent=s.cap||'';}
+  function open(list,n){cur=list; idx=n; show(); lb.classList.add('on'); lb.setAttribute('aria-hidden','false');}
+  function close(){lb.classList.remove('on'); lb.setAttribute('aria-hidden','true'); lbImg.src='';}
+  function step(d){idx=(idx+d+cur.length)%cur.length; show();}
+  lb.querySelector('.lb-close').addEventListener('click',close);
+  lb.querySelector('.lb-prev').addEventListener('click',function(e){e.stopPropagation();step(-1);});
+  lb.querySelector('.lb-next').addEventListener('click',function(e){e.stopPropagation();step(1);});
+  lb.addEventListener('click',function(e){if(e.target===lb)close();});
+  document.addEventListener('keydown',function(e){
+    if(!lb.classList.contains('on'))return;
+    if(e.key==='Escape')close();
+    if(e.key==='ArrowRight')step(1);
+    if(e.key==='ArrowLeft')step(-1);
+  });
+
+  document.querySelectorAll('.slider').forEach(function(sl){
+    var track=sl.querySelector('.track'),
+        imgs=[].slice.call(sl.querySelectorAll('.slide img')),
+        list=imgs.map(function(im){return {src:im.src,cap:im.getAttribute('data-cap')};}),
+        dotsWrap=sl.parentElement.querySelector('.dots'),
+        counter=sl.querySelector('.counter'),
+        i=0;
+    imgs.forEach(function(im,x){
+      var d=document.createElement('button');
+      d.className='dot'; d.setAttribute('aria-label','Кадр '+(x+1));
+      d.addEventListener('click',function(){go(x);});
+      dotsWrap.appendChild(d);
+    });
+    var dots=[].slice.call(dotsWrap.children);
+    function cur(){return Math.round(track.scrollLeft/track.clientWidth);}
+    function upd(){var k=cur();dots.forEach(function(d,x){d.classList.toggle('on',x===k);});if(counter)counter.textContent=(k+1)+'/'+imgs.length;}
+    function go(n){n=Math.max(0,Math.min(imgs.length-1,n));track.scrollTo({left:n*track.clientWidth,behavior:'smooth'});}
+    track.addEventListener('scroll',function(){window.requestAnimationFrame(upd);});
+    sl.querySelector('.prev').addEventListener('click',function(){go(cur()-1);});
+    sl.querySelector('.next').addEventListener('click',function(){go(cur()+1);});
+    imgs.forEach(function(im,x){im.addEventListener('click',function(){open(list,x);});});
+    upd();
+  });
+})();
+</script>
+</body>
+</html>
