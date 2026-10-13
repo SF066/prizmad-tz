@@ -166,7 +166,7 @@
     });
   });
 
-  // ---------- 72h offer timer: starts on the first visit, kept per landing ----------
+  // ---------- 72h offer timer: starts on the first visit, kept per landing; digits roll on change ----------
   const timers = document.querySelectorAll("[data-timer]");
   if (timers.length) {
     const key = "pz-deadline-" + body.dataset.slug;
@@ -177,13 +177,21 @@
       try { localStorage.setItem(key, String(deadline)); } catch (e) {}
     }
     const pad = (n) => String(n).padStart(2, "0");
+    const setDigit = (cell, ch) => {
+      const cur = cell.querySelector("b:not(.out)");
+      if (cur && cur.textContent === ch) return;
+      if (cur) { cur.classList.remove("in"); cur.classList.add("out"); setTimeout(() => cur.remove(), 460); }
+      const b = document.createElement("b");
+      b.textContent = ch;
+      if (cur) b.className = "in";
+      cell.appendChild(b);
+    };
     const tick = () => {
       const left = Math.max(0, deadline - Date.now());
       const s = Math.floor(left / 1000);
+      const parts = { h: pad(Math.min(99, Math.floor(s / 3600))), m: pad(Math.floor(s / 60) % 60), s: pad(s % 60) };
       timers.forEach((el) => {
-        el.querySelector('[data-t="h"]').textContent = pad(Math.floor(s / 3600));
-        el.querySelector('[data-t="m"]').textContent = pad(Math.floor(s / 60) % 60);
-        el.querySelector('[data-t="s"]').textContent = pad(s % 60);
+        for (const k of "hms") for (const i of [0, 1]) setDigit(el.querySelector(`[data-d="${k}${i}"]`), parts[k][i]);
         el.classList.toggle("is-over", left === 0);
       });
     };
