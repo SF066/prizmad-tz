@@ -1008,11 +1008,13 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 @media (min-width: 1025px) { .host-card { grid-template-columns: 1fr auto; } }
 
 @media (max-width: 1024px) {
+  .hero .deal-timer { order: 5; }
   .report-by { grid-template-columns: auto 1fr; }
   .rb-quote, .rb-facts { grid-column: 1 / -1; }
   .rb-quote { padding-left: 16px; }
 }
 @media (max-width: 767px) {
+  .hero .deal-timer { order: 4; margin: 4px 0; }
   .deal-timer { margin: 20px 0 22px; width: 100%; padding: 16px 18px; }
   .dt-d { font-size: 40px; }
   .deal-timer.is-glass .dt-d { font-size: 42px; }
@@ -1026,6 +1028,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
   .how-step::before { left: 18px; top: 40px; }
   .how-step h3 { font-size: 17px; padding-top: 8px; }
   .price-hold { font-size: 15px; }
+  .ttotal .was { display: block; font-size: 13px; }
   .risk-wall { padding: 88px 0; min-height: 0; }
   .wall { inset: 0 -30%; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
   .wall-col { --g: 6px; }
