@@ -217,24 +217,20 @@
   if (chNav) {
     const tabs = [...chNav.querySelectorAll("[data-ch]")];
     const rows = [...document.querySelectorAll(".ch-rows.is-tabs > .ch-row")];
-    const bars = tabs.map((t) => t.querySelector(".ch-bar i"));
+    const bar = document.querySelector(".ch-timer i");
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const SPAN = 7000;
     let cur = 0, timer = 0, held = false;
+    // one shared bar under the tabs: full when a tab opens, shrinks to zero by the next switch
     const show = (i) => {
       cur = (i + tabs.length) % tabs.length;
       tabs.forEach((t, k) => t.setAttribute("aria-selected", String(k === cur)));
       rows.forEach((r, k) => r.classList.toggle("is-on", k === cur));
-      // each tab has its own bar: the shown one fills over SPAN, the ones before it stay full
-      bars.forEach((b, k) => { b.style.transition = "none"; b.style.transform = `scaleX(${k < cur ? 1 : 0})`; });
-      chNav.offsetWidth;
-      const prog = bars[cur];
       clearTimeout(timer);
-      if (still || held) prog.style.transform = "scaleX(1)";
-      else {
-        prog.style.transition = `transform ${SPAN}ms linear`; prog.style.transform = "scaleX(1)";
-        timer = setTimeout(() => show(cur + 1), SPAN);
-      }
+      bar.style.transition = "none"; bar.style.transform = "scaleX(1)"; bar.offsetWidth;
+      if (still || held) return;
+      bar.style.transition = `transform ${SPAN}ms linear`; bar.style.transform = "scaleX(0)";
+      timer = setTimeout(() => show(cur + 1), SPAN);
     };
     tabs.forEach((t, k) => t.addEventListener("click", () => { held = true; show(k); }));
     const box = document.querySelector(".ch-rows.is-tabs");
