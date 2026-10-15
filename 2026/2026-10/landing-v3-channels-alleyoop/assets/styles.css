@@ -1215,3 +1215,94 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
   .li-actions span { font-size: 12px; gap: 4px; }
   .li-actions .icon { width: 17px; height: 17px; }
 }
+
+/* ===== Editorial pass (v3): fewer boxes, left-aligned heads, open columns.
+   Template and CSS only, landing.json stays the same, so batch builds need nothing new. ===== */
+main { counter-reset: sec; }
+
+/* Section heads: eyebrow with an automatic number, title left, intro on the right */
+:where(.market, .channels, .why, .steps, .compare) .sec-head {
+  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); column-gap: 64px; row-gap: 14px;
+  justify-items: start; align-items: end; text-align: left; max-width: none; margin: 0 0 56px;
+}
+:where(.market, .channels, .why, .steps, .compare) .sec-head > * { grid-column: 1; }
+:where(.market, .channels, .why, .steps, .compare) .sec-head > p { grid-column: 2; grid-row: 1 / span 2; align-self: end; max-width: 44ch; font-size: 17px; }
+:where(.market, .channels, .why, .steps, .compare) .sec-head h2 { font-size: clamp(32px, 4vw, 52px); letter-spacing: -0.035em; max-width: 18ch; }
+:where(.market, .channels, .why, .steps, .compare, .video) .sec-head .pill,
+.prod .sec-pill .pill {
+  padding: 0; border: 0; background: none; border-radius: 0;
+  color: var(--accent-ink); font-size: 13px; font-weight: 600; letter-spacing: .01em; gap: 10px;
+}
+:where(.market, .channels, .why, .steps, .compare, .video) .sec-head .pill::before,
+.prod .sec-pill .pill::before {
+  counter-increment: sec; content: counter(sec, decimal-leading-zero);
+  color: var(--muted-ink); font-variant-numeric: tabular-nums; padding-right: 10px; border-right: 1px solid var(--line);
+}
+.prod .sec-pill { justify-content: flex-start; }
+.compare .sec-head { margin-bottom: 40px; }
+
+/* Why: open columns instead of boxed cards */
+.why .cards3 { gap: 40px; }
+.why .icard {
+  min-height: 0; padding: 22px 0 0; background: none; border: 0; border-top: 1px solid var(--ink);
+  border-radius: 0; box-shadow: none; overflow: visible;
+}
+.why .icard:hover { transform: none; box-shadow: none; }
+.why .icard .badge { position: static; order: -1; align-self: flex-start; margin-bottom: 18px; padding: 0; background: none; color: var(--accent-ink); font-size: 13px; }
+.why .icard .illus { width: 54%; margin: 28px 0 0; padding: 0; }
+
+/* Steps: same open columns, the first one keeps an accent rule */
+.steps-grid { gap: 40px; }
+.step, .step:first-child {
+  padding: 22px 0 0; background: none; border: 0; border-top: 1px solid var(--ink); border-radius: 0; box-shadow: none;
+  justify-items: start; text-align: left;
+}
+.step:first-child { border-top: 2px solid var(--accent); }
+.step .illus { order: 9; height: 150px; margin: 18px 0 0; }
+.step .n::before { display: none; }
+
+/* What we do: the list sits on the band, no second card */
+.points { background: none; border: 0; box-shadow: none; padding: 0 0 0 16px; }
+
+/* Channels: rows split by hairlines, the mockup on a soft panel */
+.ch-rows { gap: 0; }
+.ch-row, .ch-row:nth-child(even) {
+  padding: 56px 0; background: none; border: 0; border-radius: 0; box-shadow: none; overflow: visible;
+  border-top: 1px solid var(--line);
+}
+.ch-row:first-child { border-top: 0; padding-top: 8px; }
+.ch-visual {
+  padding: 48px 24px; border-radius: var(--r-lg); overflow: hidden;
+  background: radial-gradient(120% 90% at 70% 10%, #fff 0%, var(--peach) 55%, #ffe2cf 100%);
+}
+.ch-visual::before { display: none; }
+.ch-li .ch-visual { padding: 40px 32px 28px; }
+.channels .center-cta { margin-top: 24px; }
+
+/* Call card at the end: a plain row between two rules */
+.host-card { padding: 36px 0; border: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); border-radius: 0; box-shadow: none; background: none; }
+.host-copy h2 { font-size: clamp(26px, 2.6vw, 34px); }
+
+/* Market card: lighter frame, the numbers carry it */
+.market-card { box-shadow: none; }
+
+@media (max-width: 1024px) {
+  :where(.market, .channels, .why, .steps, .compare) .sec-head { column-gap: 40px; }
+  .why .cards3, .steps-grid { gap: 28px; }
+}
+@media (max-width: 767px) {
+  :where(.market, .channels, .why, .steps, .compare) .sec-head { grid-template-columns: 1fr; margin-bottom: 36px; }
+  :where(.market, .channels, .why, .steps, .compare) .sec-head > p { grid-column: 1; grid-row: auto; }
+  .why .cards3, .steps-grid { gap: 36px; }
+  .ch-row, .ch-row:nth-child(even) { padding: 40px 0; }
+  .ch-visual { padding: 32px 12px; }
+  .ch-li .ch-visual { padding: 24px 12px 18px; }
+  .points { padding: 0; }
+  .host-card { padding: 28px 0; }
+}
+/* channel label = same quiet eyebrow as the section heads */
+.ch-tag { padding: 0; background: none; border-radius: 0; color: var(--ink); font-size: 14px; gap: 8px; }
+.ch-tag .icon { width: 20px; height: 20px; color: var(--accent); }
+.channels .center-cta, .steps .center-cta { justify-content: flex-start; }
+@media (max-width: 767px) { .channels .center-cta, .steps .center-cta { justify-content: stretch; } .channels .center-cta .btn, .steps .center-cta .btn { width: 100%; justify-content: center; } }
+@media (max-width: 767px) { .step .illus { height: 104px; margin-top: 14px; } .why .icard .illus { width: 40%; margin-top: 20px; } }
