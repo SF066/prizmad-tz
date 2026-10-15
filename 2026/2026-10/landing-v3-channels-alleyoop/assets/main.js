@@ -243,7 +243,13 @@
       const dx = e.changedTouches[0].clientX - x0; x0 = null;
       if (Math.abs(dx) > 50) { held = true; show(cur + (dx < 0 ? 1 : -1)); }
     });
-    show(0);
+    // the clock starts only when the section is on screen, so nobody lands on tab two halfway through
+    let seen = false;
+    held = true; show(0); held = false;
+    new IntersectionObserver((es, o) => {
+      if (!es[0].isIntersecting || seen) return;
+      seen = true; o.disconnect(); show(0);
+    }, { threshold: 0.35 }).observe(box);
   }
 
   // ---------- booking popup: Cal.com inline, fallback form ----------
