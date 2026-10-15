@@ -1037,143 +1037,181 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
   .host-card { grid-template-columns: 1fr; }
 }
 
-/* Beyond Meta: optional channel rows (Instagram, Amazon, LinkedIn), each shows only with checked data */
+/* Beyond Meta: optional channel rows (Instagram, Amazon, LinkedIn), each shows only with checked data.
+   The mockups follow the real apps (iOS Instagram profile, Amazon Shopping app, LinkedIn feed post). */
 .channels + .why { padding-top: 24px; }
 .ch-rows { display: grid; gap: 28px; }
 .ch-row {
-  display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 56px;
-  padding: 48px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow);
-  overflow: hidden;
+  display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 56px;
+  padding: 56px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow); overflow: hidden;
 }
+.ch-row:nth-child(even) { grid-template-columns: 1fr 1.05fr; }
 .ch-row:nth-child(even) .ch-copy { order: 2; }
 .ch-tag {
   display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px 5px 9px; border-radius: 999px;
   background: var(--peach); color: var(--accent-ink); font-size: 13px; font-weight: 600;
 }
 .ch-tag .icon { width: 17px; height: 17px; }
-.ch-copy h3 { margin-top: 18px; font-size: clamp(26px, 2.6vw, 34px); }
-.ch-lede { margin-top: 14px; color: var(--soft-ink); font-size: 17px; max-width: 46ch; }
-.ch-lede b { color: var(--ink); }
-.ch-points { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--line); }
-.ch-points li { display: grid; grid-template-columns: 44px 1fr; gap: 4px; padding: 16px 0; border-bottom: 1px solid var(--line); }
-.cp-n { font-size: 13px; font-weight: 600; color: var(--accent-ink); font-variant-numeric: tabular-nums; padding-top: 3px; }
-.ch-points h4 { margin: 0; font-size: 16px; font-weight: 650; letter-spacing: -0.01em; }
-.ch-points p { margin-top: 3px; color: var(--muted-ink); font-size: 15px; }
-.ch-visual { position: relative; display: grid; justify-items: center; align-content: center; min-height: 100%; }
+.ch-copy h3 { margin-top: 18px; font-size: clamp(28px, 2.8vw, 38px); max-width: 16ch; }
+.ch-lede { margin-top: 16px; color: var(--soft-ink); font-size: 18px; max-width: 40ch; }
+.ch-lede b { color: var(--accent-ink); font-weight: 650; }
+.ch-points { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 12px; }
+.ch-points li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; color: var(--muted-ink); }
+.ch-points li .icon { width: 20px; height: 20px; color: var(--accent); margin-top: 1px; }
+.ch-points b { color: var(--ink); font-weight: 600; }
+.ch-visual { position: relative; display: grid; justify-items: center; align-content: center; }
 .ch-visual::before {
-  content: ""; position: absolute; inset: -48px; z-index: 0;
-  background: radial-gradient(60% 55% at 50% 50%, var(--peach), transparent 70%);
+  content: ""; position: absolute; inset: -56px; z-index: 0;
+  background: radial-gradient(55% 50% at 50% 50%, var(--peach), transparent 72%);
 }
 .ch-visual > * { position: relative; z-index: 1; }
 .ch-note { margin-top: 12px; font-size: 13px; color: var(--muted-ink); text-align: center; }
-
-/* Instagram: profile in a phone */
-.ig-phone {
-  width: min(320px, 100%); padding: 14px 12px 12px; background: #fff;
-  border: 1px solid var(--line); border-radius: 34px; box-shadow: var(--shadow-lg);
-}
-.ig-bar { display: flex; align-items: center; gap: 6px; justify-content: center; font-size: 14px; padding: 2px 0 12px; }
-.ig-tick { width: 14px; height: 14px; border-radius: 50%; background: #0095f6; position: relative; }
-.ig-tick::after { content: ""; position: absolute; left: 4.5px; top: 2.5px; width: 3.5px; height: 6.5px; border: solid #fff; border-width: 0 1.6px 1.6px 0; transform: rotate(45deg); }
-.ig-head { display: flex; align-items: center; gap: 22px; padding: 0 8px; }
-.ig-ava {
-  width: 70px; height: 70px; flex: none; border-radius: 50%; padding: 3px;
-  background: conic-gradient(from 210deg, #ff8903, var(--accent), #ffb27a, #ff8903);
-  display: grid; place-items: center;
-}
-.ig-ava img, .ig-ava i { width: 100%; height: 100%; border-radius: 50%; background: #fff; border: 2px solid #fff; object-fit: contain; padding: 8px; }
-.ig-ava i { display: grid; place-items: center; font-style: normal; font-weight: 700; font-size: 24px; }
-.ig-count { display: grid; line-height: 1.2; }
-.ig-count b { font-size: 22px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.ig-count span { font-size: 13px; color: var(--muted-ink); }
-.ig-name { margin: 10px 8px 12px; font-size: 13px; font-weight: 600; }
-.ig-tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
-.ig-tabs span { display: grid; place-items: center; padding: 8px 0; color: var(--muted-ink); }
-.ig-tabs span.on { color: var(--ink); box-shadow: inset 0 1.5px 0 var(--ink); }
-.ig-tabs .icon { width: 19px; height: 19px; }
-.ig-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; border-radius: 0 0 22px 22px; overflow: hidden; }
-.ig-tile { position: relative; aspect-ratio: 9 / 16; background: var(--muted); overflow: hidden; }
-.ig-tile img, .ig-tile video { width: 100%; height: 100%; object-fit: cover; }
-.ig-reel { position: absolute; top: 6px; right: 6px; color: #fff; filter: drop-shadow(0 1px 2px rgb(0 0 0 / .45)); }
-.ig-reel .icon { width: 15px; height: 15px; }
-.ig-made {
-  position: absolute; left: 6px; bottom: 6px; padding: 2px 7px; border-radius: 999px;
-  background: var(--accent); color: #fff; font-size: 10px; font-weight: 600;
-}
-
-/* Amazon: a listing with video in the gallery (no marks, just the layout shoppers know) */
-.amz-card {
-  width: min(500px, 100%); display: grid; grid-template-columns: 52px 1fr; grid-template-areas: "thumbs main" "info info";
-  gap: 12px; padding: 16px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--shadow-lg);
-}
-.amz-thumbs { grid-area: thumbs; display: grid; gap: 8px; align-content: start; }
-.amz-thumbs span { position: relative; aspect-ratio: 1; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--muted); }
-.amz-thumbs img { width: 100%; height: 100%; object-fit: cover; }
-.amz-thumbs .is-vid { border: 2px solid var(--accent); }
-.amz-thumbs .is-vid .icon { position: absolute; inset: 0; margin: auto; width: 18px; height: 18px; color: #fff; filter: drop-shadow(0 1px 3px rgb(0 0 0 / .5)); }
-.amz-main { grid-area: main; position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: var(--muted); }
-.amz-main video { width: 100%; height: 100%; object-fit: cover; }
-.amz-badge {
-  position: absolute; left: 10px; top: 10px; display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 9px; border-radius: 999px; background: rgb(9 9 11 / .72); color: #fff; font-size: 12px; font-weight: 600;
-}
-.amz-badge .icon { width: 11px; height: 11px; }
-.amz-info { grid-area: info; padding: 4px 2px 0; }
-.amz-store { font-size: 13px; color: var(--accent-ink); }
-.amz-title { margin-top: 4px; font-size: 17px; font-weight: 600; line-height: 1.3; }
-.amz-lines { display: grid; gap: 7px; margin: 12px 0 14px; }
-.amz-lines i { display: block; height: 7px; border-radius: 4px; background: var(--muted); }
-.amz-lines i.short { width: 55%; }
-.amz-btn {
-  display: flex; align-items: center; justify-content: center; gap: 8px; height: 40px; border-radius: var(--r-sm);
-  background: var(--ink); color: #fff; font-size: 14px; font-weight: 600;
-}
-.amz-btn .icon { width: 17px; height: 17px; }
-
-/* LinkedIn: a feed post */
-.li-post {
-  width: min(460px, 100%); background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--shadow-lg); overflow: hidden;
-}
-.li-head { display: flex; align-items: flex-start; gap: 10px; padding: 14px 16px 8px; }
-.li-ava {
-  width: 48px; height: 48px; flex: none; border-radius: 50%; display: grid; place-items: center;
-  background: var(--ink); color: #fff; font-weight: 700; font-size: 16px; letter-spacing: .02em;
-}
-.li-head > div { flex: 1; min-width: 0; line-height: 1.3; }
-.li-name { font-size: 15px; font-weight: 650; }
-.li-role { font-size: 13px; color: var(--soft-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.li-time { font-size: 12px; color: var(--muted-ink); }
-.li-follow { font-size: 14px; font-weight: 650; color: #0a66c2; white-space: nowrap; }
-.li-text { padding: 2px 16px 12px; font-size: 14px; line-height: 1.45; }
-.li-media { position: relative; aspect-ratio: 4 / 5; max-height: 380px; width: 100%; background: var(--muted); overflow: hidden; }
-.li-media img { width: 100%; height: 100%; object-fit: cover; }
-.li-play {
-  position: absolute; inset: 0; margin: auto; width: 56px; height: 56px; border-radius: 50%;
-  display: grid; place-items: center; background: rgb(9 9 11 / .6); color: #fff; backdrop-filter: blur(6px);
-}
-.li-play .icon { width: 22px; height: 22px; margin-left: 3px; }
-.li-actions { display: grid; grid-template-columns: repeat(4, 1fr); padding: 4px 8px; border-top: 1px solid var(--line); }
-.li-actions span { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 0; font-size: 13px; font-weight: 600; color: var(--soft-ink); }
-.li-actions .icon { width: 18px; height: 18px; }
-
-@media (max-width: 1024px) {
-  .ch-row { gap: 36px; padding: 36px; }
-}
-@media (max-width: 767px) {
-  .ch-rows { gap: 18px; }
-  .ch-row { grid-template-columns: 1fr; gap: 32px; padding: 26px 20px 30px; }
-  .ch-row:nth-child(even) .ch-copy { order: 0; }
-  .ch-visual::before { inset: -20px; }
-  .ch-copy h3 { margin-top: 14px; }
-  .ch-lede { font-size: 16px; }
-  .ch-points { margin-top: 22px; }
-  .ch-points li { grid-template-columns: 36px 1fr; padding: 14px 0; }
-  .amz-card { grid-template-columns: 44px 1fr; padding: 12px; gap: 10px; }
-  .li-actions span { font-size: 12px; gap: 4px; }
-  .li-actions .icon { width: 16px; height: 16px; }
-}
-/* still scenes that drift slowly, read as video in the mockups */
 .ch-row .kb { animation: kb 14s ease-in-out infinite alternate; transform-origin: 60% 40%; }
 @keyframes kb { from { transform: scale(1); } to { transform: scale(1.12) translate(-2%, 1%); } }
 @media (prefers-reduced-motion: reduce) { .ch-row .kb { animation: none; } }
-.amz-main .li-play { width: 52px; height: 52px; }
+
+/* iPhone frame */
+.phone {
+  width: 300px; max-width: 100%; padding: 9px; border-radius: 48px; background: #1c1c1e;
+  box-shadow: 0 0 0 1px #3a3a3c inset, 0 30px 60px -24px rgb(9 9 11 / .45), 0 12px 24px -12px rgb(9 9 11 / .25);
+}
+.phone-in {
+  position: relative; height: 610px; border-radius: 40px; overflow: hidden; background: #fff; color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; font-size: 12px; line-height: 1.3;
+  display: flex; flex-direction: column;
+}
+.phone-in::before { content: ""; position: absolute; top: 9px; left: 50%; width: 84px; height: 24px; margin-left: -42px; border-radius: 14px; background: #000; z-index: 3; }
+.phone-in .icon { width: 1.25em; height: 1.25em; }
+.ph-status { display: flex; justify-content: space-between; align-items: center; height: 42px; padding: 4px 24px 0 30px; flex: none; }
+.ph-status b { font-size: 14px; font-weight: 600; }
+.ph-status span { display: flex; gap: 4px; }
+.ph-status .icon { width: 15px; height: 15px; }
+.ph-tabbar {
+  margin-top: auto; flex: none; display: flex; justify-content: space-around; align-items: center;
+  padding: 9px 10px 20px; border-top: 1px solid #efefef; background: #fff;
+}
+.ph-tabbar .icon { width: 23px; height: 23px; }
+.ph-tabbar .me { width: 24px; height: 24px; border-radius: 50%; overflow: hidden; border: 1.5px solid #000; }
+.ph-tabbar .me img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Instagram, iOS profile */
+.ig-nav { display: flex; align-items: center; gap: 6px; padding: 4px 12px 8px; flex: none; }
+.ig-nav b { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; margin-left: 6px; }
+.ig-nav .icon { width: 22px; height: 22px; }
+.ig-nav .ig-ver { width: 16px; height: 16px; color: #0095f6; }
+.ig-nav .sp { flex: 1; }
+.ig-head { display: flex; align-items: center; gap: 16px; padding: 4px 14px 0; flex: none; }
+.ig-ava {
+  width: 82px; height: 82px; flex: none; border-radius: 50%; padding: 3px;
+  background: conic-gradient(from 200deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75);
+}
+.ig-ava img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid #fff; object-fit: cover; background: #fff; }
+.ig-meta { flex: 1; min-width: 0; }
+.ig-name { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.ig-stats { display: flex; justify-content: space-between; gap: 6px; }
+.ig-stats span { display: grid; font-size: 12px; color: #000; }
+.ig-stats b { font-size: 15px; font-weight: 700; }
+.ig-bio { padding: 10px 14px 0; flex: none; }
+.ig-bio p { font-size: 12px; }
+.ig-bio .ig-cat { color: #737373; }
+.ig-bio .ig-link { display: flex; align-items: center; gap: 4px; color: #00376b; font-weight: 600; }
+.ig-btns { display: grid; grid-template-columns: 1fr 1fr 30px; gap: 6px; padding: 12px 14px 12px; flex: none; }
+.ig-btns span { display: grid; place-items: center; height: 30px; border-radius: 8px; background: #efefef; font-size: 13px; font-weight: 600; }
+.ig-btns .b1 { background: #4a5df9; color: #fff; }
+.ig-tabs { display: grid; grid-template-columns: repeat(4, 1fr); flex: none; }
+.ig-tabs span { display: grid; place-items: center; padding: 8px 0 9px; color: #8e8e8e; border-bottom: 1px solid #efefef; }
+.ig-tabs .on { color: #000; border-bottom: 1.5px solid #000; }
+.ig-tabs .icon { width: 22px; height: 22px; }
+.ig-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; flex: none; }
+.ig-grid > span { position: relative; aspect-ratio: 3 / 4; overflow: hidden; background: #efefef; }
+.ig-grid img { width: 100%; height: 100%; object-fit: cover; }
+.ig-grid .ig-r { position: absolute; top: 6px; right: 6px; width: 15px; height: 15px; color: #fff; filter: drop-shadow(0 1px 2px rgb(0 0 0 / .5)); }
+
+/* Amazon Shopping app, product page */
+.amz-top { flex: none; background: linear-gradient(90deg, #82d8e3, #a6e7ce); padding-bottom: 8px; }
+.amz-search { display: flex; align-items: center; gap: 8px; padding: 0 10px; }
+.amz-search > .icon { width: 20px; height: 20px; }
+.amz-search .q {
+  flex: 1; display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; border-radius: 10px;
+  background: #fff; color: #6f7373; font-size: 12px; box-shadow: 0 1px 2px rgb(0 0 0 / .15); white-space: nowrap; overflow: hidden;
+}
+.amz-search .q i { margin-left: auto; display: flex; gap: 6px; color: #111; }
+.amz-body { padding: 10px 12px 0; flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; }
+.amz-store { color: #007185; font-size: 12px; flex: none; }
+.amz-title { margin-top: 3px; font-size: 13px; line-height: 1.35; color: #0f1111; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex: none; }
+.amz-media { position: relative; margin-top: 10px; aspect-ratio: 6 / 5; border-radius: 4px; overflow: hidden; background: #f7f7f7; flex: none; }
+.amz-media img { width: 100%; height: 100%; object-fit: cover; }
+.amz-play {
+  position: absolute; inset: 0; margin: auto; width: 52px; height: 52px; border-radius: 50%;
+  display: grid; place-items: center; background: rgb(255 255 255 / .9); color: #0f1111; box-shadow: 0 2px 10px rgb(0 0 0 / .25);
+}
+.amz-play .icon { width: 22px; height: 22px; margin-left: 3px; }
+.amz-vid { position: absolute; left: 8px; bottom: 8px; padding: 2px 6px; border-radius: 3px; background: rgb(15 17 17 / .78); color: #fff; font-size: 10px; font-weight: 700; letter-spacing: .04em; }
+.amz-dots { display: flex; align-items: center; gap: 5px; justify-content: center; padding: 8px 0 2px; position: relative; flex: none; }
+.amz-dots i { width: 6px; height: 6px; border-radius: 50%; background: #d5d9d9; }
+.amz-dots i.on { background: #0f1111; }
+.amz-dots span { position: absolute; right: 0; top: 4px; display: flex; gap: 10px; }
+.amz-dots .icon { width: 19px; height: 19px; }
+.amz-price { margin-top: 6px; font-size: 26px; font-weight: 500; color: #0f1111; line-height: 1; flex: none; }
+.amz-price sup { font-size: 12px; vertical-align: 11px; margin: 0 1px; }
+.amz-stock { margin-top: 6px; color: #007600; font-size: 14px; flex: none; }
+.amz-cart, .amz-buy { display: grid; place-items: center; height: 36px; margin-top: 8px; border-radius: 999px; font-size: 13px; color: #0f1111; flex: none; }
+.amz-cart { background: #ffd814; }
+.amz-buy { background: #ffa41c; }
+.amz-tabs .icon { color: #0f1111; }
+
+/* LinkedIn feed post, desktop */
+.li-post {
+  width: min(470px, 100%); background: #fff; border: 1px solid #e8e6e1; border-radius: 10px; overflow: hidden;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / .04), 0 24px 48px -24px rgb(9 9 11 / .35);
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: rgb(0 0 0 / .9);
+}
+.li-head { display: flex; align-items: flex-start; gap: 8px; padding: 12px 16px 0; }
+.li-ava {
+  width: 48px; height: 48px; flex: none; border-radius: 50%; display: grid; place-items: center;
+  background: #d9e6f2; color: #0a66c2; font-weight: 600; font-size: 17px;
+}
+.li-who { flex: 1; min-width: 0; line-height: 1.33; }
+.li-name { font-size: 14px; font-weight: 600; }
+.li-role { font-size: 12px; color: rgb(0 0 0 / .6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.li-time { display: flex; align-items: center; gap: 3px; font-size: 12px; color: rgb(0 0 0 / .6); }
+.li-time .icon { width: 13px; height: 13px; }
+.li-follow { font-size: 15px; font-weight: 600; color: #0a66c2; white-space: nowrap; padding-top: 2px; }
+.li-text { padding: 10px 16px 10px; font-size: 14px; line-height: 1.43; }
+.li-text span { color: rgb(0 0 0 / .6); }
+.li-media { position: relative; aspect-ratio: 4 / 5; max-height: 400px; width: 100%; background: #000; overflow: hidden; }
+.li-media img { width: 100%; height: 100%; object-fit: cover; }
+.li-ctrl {
+  position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 10px; padding: 26px 12px 10px;
+  background: linear-gradient(transparent, rgb(0 0 0 / .55)); color: #fff; font-size: 12px;
+}
+.li-ctrl .icon { width: 17px; height: 17px; flex: none; }
+.li-ctrl .bar { flex: 1; height: 3px; border-radius: 2px; background: rgb(255 255 255 / .35); }
+.li-ctrl .bar i { display: block; width: 40%; height: 100%; border-radius: 2px; background: #fff; }
+.li-ctrl .t { font-variant-numeric: tabular-nums; }
+.li-social { display: flex; align-items: center; padding: 8px 16px; font-size: 12px; color: rgb(0 0 0 / .6); }
+.li-social .rx { display: flex; margin-right: 10px; }
+.li-social .sp { flex: 1; }
+.li-social .rx i { width: 17px; height: 17px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid #fff; margin-right: -4px; color: #fff; }
+.li-social .rx .icon { width: 10px; height: 10px; }
+.li-social .r1 { background: #378fe9; } .li-social .r2 { background: #6dae4f; } .li-social .r3 { background: #df704d; }
+.li-actions { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 12px; padding: 2px 0; border-top: 1px solid #e8e6e1; }
+.li-actions span { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 0; font-size: 13px; font-weight: 600; color: rgb(0 0 0 / .6); }
+.li-actions .icon { width: 19px; height: 19px; }
+
+@media (max-width: 1024px) {
+  .ch-row, .ch-row:nth-child(even) { gap: 36px; padding: 40px; }
+}
+@media (max-width: 767px) {
+  .ch-rows { gap: 18px; }
+  .ch-row, .ch-row:nth-child(even) { grid-template-columns: 1fr; gap: 36px; padding: 28px 20px 34px; }
+  .ch-row:nth-child(even) .ch-copy { order: 0; }
+  .ch-visual::before { inset: -24px; }
+  .ch-copy h3 { margin-top: 14px; }
+  .ch-lede { font-size: 16px; }
+  .ch-points { margin-top: 20px; }
+  .phone { width: 280px; }
+  .phone-in { height: 570px; }
+  .li-actions span { font-size: 12px; gap: 4px; }
+  .li-actions .icon { width: 17px; height: 17px; }
+}
