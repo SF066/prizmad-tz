@@ -212,6 +212,40 @@
     clips.forEach((v) => io.observe(v));
   }
 
+  // ---------- channels: all three present = tabs that rotate, paused on hover and after a tap ----------
+  const chNav = document.querySelector(".ch-nav");
+  if (chNav) {
+    const tabs = [...chNav.querySelectorAll("[data-ch]")];
+    const rows = [...document.querySelectorAll(".ch-rows.is-tabs > .ch-row")];
+    const prog = chNav.querySelector(".ch-prog i");
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const SPAN = 7000;
+    let cur = 0, timer = 0, held = false;
+    const show = (i) => {
+      cur = (i + tabs.length) % tabs.length;
+      tabs.forEach((t, k) => t.setAttribute("aria-selected", String(k === cur)));
+      rows.forEach((r, k) => r.classList.toggle("is-on", k === cur));
+      if (prog) { prog.style.transition = "none"; prog.style.transform = "scaleX(0)"; prog.offsetWidth; }
+      clearTimeout(timer);
+      if (!still && !held) {
+        if (prog) { prog.style.transition = `transform ${SPAN}ms linear`; prog.style.transform = "scaleX(1)"; }
+        timer = setTimeout(() => show(cur + 1), SPAN);
+      }
+    };
+    tabs.forEach((t, k) => t.addEventListener("click", () => { held = true; show(k); }));
+    const box = document.querySelector(".ch-rows.is-tabs");
+    box.addEventListener("mouseenter", () => { held = true; show(cur); });
+    box.addEventListener("mouseleave", () => { held = false; show(cur); });
+    let x0 = null;
+    box.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    box.addEventListener("touchend", (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) > 50) { held = true; show(cur + (dx < 0 ? 1 : -1)); }
+    });
+    show(0);
+  }
+
   // ---------- booking popup: Cal.com inline, fallback form ----------
   const modal = document.getElementById("book");
   if (!modal) return;
